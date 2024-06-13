@@ -13,7 +13,8 @@ pipeline {
             steps {
                 script {
                     echo "Cloning the Git repository..."
-                    git 'https://github.com/atchyuth417/project.git'  // Update to your actual repository URL
+                    git branch: 'main',
+                        url: 'https://github.com/atchyuth417/project.git'  // Update to your actual repository URL
                 }
             }
         }
