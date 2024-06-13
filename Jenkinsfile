@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        registry = "your-dockerhub-username/myapp"
-        registryCredential = 'dockerhub'
+        registry = "atchyuth417/myapp"
+        registryCredential = 'dockerhub-credentials'
         dockerImage = ''
         kubeconfigId = 'kubeconfig'
     }
@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     echo "Cloning the Git repository..."
-                    git 'https://github.com/your-username/your-repo.git'
+                    git 'https://github.com/atchyuth417/project.git'
                 }
             }
         }
