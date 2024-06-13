@@ -5,7 +5,7 @@ pipeline {
         registry = "atchyuth417/myapp"   // Update to your DockerHub username and repository
         registryCredential = 'dockerhub-credentials'             // Ensure this matches the ID of your DockerHub credentials in Jenkins
         dockerImage = ''
-        kubeconfigId = 'kubeconfig'                  // Ensure this matches the ID of your Kubernetes kubeconfig in Jenkins
+        kubeconfigCredentialId = 'kubeconfig'                  // Ensure this matches the ID of your Kubernetes kubeconfig in Jenkins
     }
 
     stages {
@@ -56,7 +56,13 @@ pipeline {
             steps {
                 script {
                     echo "Deploying to Kubernetes..."
-                    kubernetesDeploy configs: 'k8s-deployment.yaml', kubeconfigId: kubeconfigId
+                    
+                    // Set kubectl context using kubeconfig from Jenkins credentials
+                    withCredentials([file(credentialsId: kubeconfigCredentialId, variable: 'KUBECONFIG_FILE')]) {
+                        sh "kubectl --kubeconfig=${KUBECONFIG_FILE} config use-context kubernetes-admin@Maigha"
+                        sh "kubectl --kubeconfig=${KUBECONFIG_FILE} apply -f k8s-deployment.yaml"
+                        sh "kubectl --kubeconfig=${KUBECONFIG_FILE} rollout status deployment/myapp-deployment"
+                    }
                 }
             }
         }
