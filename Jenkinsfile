@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        registry = "atchyuth417/myapp"
-        registryCredential = 'dockerhub-credentials'
+        registry = "atchyuth417/myapp"   // Update to your DockerHub username and repository
+        registryCredential = 'dockerhub-credentials'             // Ensure this matches the ID of your DockerHub credentials in Jenkins
         dockerImage = ''
-        kubeconfigId = 'kubeconfig'
+        kubeconfigId = 'kubeconfig'                  // Ensure this matches the ID of your Kubernetes kubeconfig in Jenkins
     }
 
     stages {
@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     echo "Cloning the Git repository..."
-                    git 'https://github.com/atchyuth417/project.git'
+                    git 'https://github.com/atchyuth417/project.git'  // Update to your actual repository URL
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
                     echo "Running unit tests..."
                     dockerImage.inside {
                         sh 'npm install'
-                        sh 'npm test'
+                        sh 'npm test'   // Update if your test command differs
                     }
                 }
             }
